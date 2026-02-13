@@ -156,6 +156,23 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
   - 이슈 수정 (날짜/시간/장소 변경) → 캘린더 일정 수정
   - 이슈 삭제 → 캘린더 일정 삭제
 - **매칭 기준**: 캘린더 이벤트의 description에 `TASK-XXX` 형식의 이슈 키를 포함하여 매칭
+- **에픽별 색상**: Jira 이슈의 에픽에 따라 캘린더 이벤트의 `colorId`를 설정
+
+### 에픽-색상 매핑 (Google Calendar colorId)
+
+| colorId | 색상 | 에픽 |
+|---------|------|------|
+| 1 | Lavender (연보라) | [목적] 독서 |
+| 2 | Sage (초록) | [신체] 운동 |
+| 3 | Grape (보라) | [관계] 마술 |
+| 4 | Flamingo (핑크) | [관계] 연애 |
+| 5 | Banana (노랑) | [관계] 친구 |
+| 6 | Tangerine (주황) | [관계] 가족 |
+| 7 | Peacock (파랑) | [목적] 업무 |
+| 8 | Graphite (회색) | [목적] 블로그 |
+| 9 | Blueberry (남색) | [목적] 스터디 |
+| 10 | Basil (짙은초록) | [목적] 방향성 |
+| 11 | Tomato (빨강) | [경제] 재테크, [경제] 투자 |
 
 ---
 
