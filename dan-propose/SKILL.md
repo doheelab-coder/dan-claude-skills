@@ -11,9 +11,9 @@ model: opus
 
 ## 경로
 
-- **입력**: `/Users/dan.jung/Documents/code/claude-skills/dan-propose/input/`
-- **출력**: `/Users/dan.jung/Documents/code/claude-skills/dan-propose/output/`
-- **완료**: `/Users/dan.jung/Documents/code/claude-skills/dan-propose/archive/`
+- **입력**: `/Users/dan.jung/Documents/code/dan-claude-skills/dan-propose/input/`
+- **출력**: `/Users/dan.jung/Documents/code/dan-claude-skills/dan-propose/output/`
+- **완료**: `/Users/dan.jung/Documents/code/dan-claude-skills/dan-propose/archive/`
 
 ## 나의 관심사
 
@@ -33,7 +33,7 @@ model: opus
 ### Step 1: 이미지 목록 조회
 Glob 도구로 `input/` 폴더의 모든 PNG 파일을 조회합니다:
 ```
-/Users/dan.jung/Documents/code/claude-skills/dan-propose/input/*.png
+/Users/dan.jung/Documents/code/dan-claude-skills/dan-propose/input/*.png
 ```
 
 이미지가 없으면:
