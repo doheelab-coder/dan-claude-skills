@@ -72,6 +72,22 @@ curl -s "https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin
 
 ### 일정 생성
 
+**생성 전 중복 체크 (필수):**
+
+일정을 생성하기 전에 같은 날짜의 기존 일정을 조회하여 중복 여부를 확인합니다.
+
+1. 생성할 일정의 날짜 범위로 기존 일정 조회
+2. 동일한 `summary`(제목) 또는 `description`(TASK-XXX)이 이미 존재하면:
+   - 새로 생성하지 않고, 기존 일정을 **수정(PATCH)**하여 업데이트
+3. 중복이 없을 때만 새 일정 생성
+
+```bash
+# 중복 체크: 해당 날짜의 기존 일정 조회
+curl -s "https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=<DATE>T00:00:00%2B09:00&timeMax=<DATE+1>T00:00:00%2B09:00&singleEvents=true&orderBy=startTime" \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}"
+# → items에서 summary 또는 description이 일치하는 이벤트가 있으면 PATCH, 없으면 POST
+```
+
 ```bash
 curl -s -X POST "https://www.googleapis.com/calendar/v3/calendars/primary/events" \
   -H "Authorization: Bearer ${ACCESS_TOKEN}" \
