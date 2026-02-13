@@ -55,13 +55,13 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
   "https://doheelab.atlassian.net/rest/api/3/issue/<ISSUE_KEY>/comment"
 
-# JQL 검색
+# JQL 검색 (/rest/api/3/search는 deprecated → /rest/api/3/search/jql 사용)
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
-  "https://doheelab.atlassian.net/rest/api/3/search?jql=<JQL>&maxResults=20"
+  "https://doheelab.atlassian.net/rest/api/3/search/jql?jql=<JQL>&maxResults=20"
 
 # 내 이슈 목록
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
-  "https://doheelab.atlassian.net/rest/api/3/search?jql=assignee=currentUser()+ORDER+BY+updated+DESC&maxResults=20"
+  "https://doheelab.atlassian.net/rest/api/3/search/jql?jql=assignee=currentUser()+ORDER+BY+updated+DESC&maxResults=20"
 ```
 
 ---
@@ -80,7 +80,42 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
 
 # 활성 스프린트의 이슈
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
-  "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>/issue"
+  "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>/issue?fields=key,summary,status,priority,assignee&maxResults=50"
+
+# 스프린트 닫기
+curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>" \
+  -d '{"state":"closed"}'
+
+# 스프린트 생성
+curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/agile/1.0/sprint" \
+  -d '{
+    "name": "<스프린트명>",
+    "startDate": "2026-02-01T00:00:00.000+09:00",
+    "endDate": "2026-02-28T23:59:59.000+09:00",
+    "originBoardId": 1
+  }'
+
+# 스프린트 시작 (future → active)
+curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>" \
+  -d '{"state":"active"}'
+
+# 스프린트에 이슈 추가
+curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>/issue" \
+  -d '{"issues":["TASK-XXX","TASK-YYY"]}'
+
+# 이슈 순서 정렬 (rank)
+curl -s -X PUT -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/agile/1.0/issue/rank" \
+  -d '{"issues":["TASK-XXX"],"rankAfterIssue":"TASK-YYY"}'
 ```
 
 ---
@@ -94,6 +129,7 @@ mcp__jira-personal__create-issue (projectKey, issueType, summary, description)
 
 #### curl 대안
 ```bash
+# 기본 이슈 생성
 curl -s -X POST \
   -u "doheelab@gmail.com:<API_TOKEN>" \
   -H "Content-Type: application/json" \
@@ -102,6 +138,25 @@ curl -s -X POST \
     "fields": {
       "project": {"key": "<PROJECT_KEY>"},
       "issuetype": {"name": "Task"},
+      "summary": "<제목>",
+      "description": {
+        "type": "doc",
+        "version": 1,
+        "content": [{"type": "paragraph", "content": [{"type": "text", "text": "<내용>"}]}]
+      }
+    }
+  }'
+
+# 에픽 하위 태스크 생성 (parent 필드로 에픽 연결)
+curl -s -X POST \
+  -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/api/3/issue" \
+  -d '{
+    "fields": {
+      "project": {"key": "<PROJECT_KEY>"},
+      "issuetype": {"name": "Task"},
+      "parent": {"key": "<EPIC_KEY>"},
       "summary": "<제목>",
       "description": {
         "type": "doc",
@@ -228,6 +283,14 @@ Jira Cloud API v3는 ADF 형식을 사용합니다:
   ]
 }
 ```
+
+---
+
+## 이슈 작성 규칙
+
+- **제목**: 일자와 핵심 정보만 포함 (예: `(2/13) 서윤정님`)
+- **본문(Description)**: 시간, 장소 등 상세 정보 기재 (예: `18:00 이수 방콕상회`)
+- 시간 정보는 제목에 넣지 않고 본문에 넣기
 
 ---
 
