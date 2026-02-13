@@ -34,35 +34,11 @@ TASK 프로젝트의 이슈 상태를 제목의 날짜 `(M/DD)` 기준으로 자
 - 앞에 0을 붙이지 않음: `2/14` (O), `02/14` (X)
 - 현재 연도를 기준으로 날짜 비교
 
-### 2단계: In Progress 이슈 조회 및 완료 처리
+### 2단계: 활성 스프린트 이슈 전체 조회
 
-**JQL**: `project=TASK AND status='In Progress' AND assignee=currentUser() AND issuetype=Task ORDER BY updated DESC`
+활성 스프린트의 모든 이슈를 한 번에 조회합니다.
 
-#### MCP 도구 사용 (우선)
-```
-mcp__jira-personal__search-issues (jql)
-```
-
-#### curl 대안 (MCP 실패 시)
-```bash
-curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
-  "https://doheelab.atlassian.net/rest/api/3/search/jql?jql=project=TASK+AND+status='In+Progress'+AND+assignee=currentUser()+AND+issuetype=Task+ORDER+BY+updated+DESC&maxResults=50"
-```
-
-조회된 각 이슈에 대해:
-
-1. **제목에서 날짜 추출**: 정규식 `\((\d{1,2}/\d{1,2})\)` 매칭
-2. **날짜가 없으면 건너뜀**
-3. **오늘 이전 날짜인 경우 Done으로 전환**:
-   ```
-   mcp__jira-personal__get-issue-transitions (issueKey)
-   → "Done" 또는 "완료" transition ID 확인
-   mcp__jira-personal__transition-issue (issueKey, transitionId)
-   ```
-
-### 3단계: To Do 이슈 조회 및 진행 처리
-
-**JQL**: `project=TASK AND status='To Do' AND assignee=currentUser() AND issuetype=Task ORDER BY updated DESC`
+**JQL**: `project=TASK AND sprint in openSprints() AND assignee=currentUser() AND issuetype=Task ORDER BY status ASC, updated DESC`
 
 #### MCP 도구 사용 (우선)
 ```
@@ -72,19 +48,37 @@ mcp__jira-personal__search-issues (jql)
 #### curl 대안 (MCP 실패 시)
 ```bash
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
-  "https://doheelab.atlassian.net/rest/api/3/search/jql?jql=project=TASK+AND+status='To+Do'+AND+assignee=currentUser()+AND+issuetype=Task+ORDER+BY+updated+DESC&maxResults=50"
+  "https://doheelab.atlassian.net/rest/api/3/search/jql?jql=project=TASK+AND+sprint+in+openSprints()+AND+assignee=currentUser()+AND+issuetype=Task+ORDER+BY+status+ASC,updated+DESC&maxResults=50&fields=key,summary,status"
 ```
 
-조회된 각 이슈에 대해:
+### 3단계: 상태별 전환 처리
+
+조회된 이슈를 상태 카테고리(`statusCategory.key`)로 분류하여 처리합니다.
+
+**상태명 매핑** (한글/영어 모두 대응):
+- `statusCategory.key = "new"` → 해야 할 일 (To Do)
+- `statusCategory.key = "indeterminate"` → 진행중 (In Progress)
+- `statusCategory.key = "done"` → 완료 (Done)
+
+#### 진행중 이슈 → 완료 처리
+
+`statusCategory.key == "indeterminate"` 인 이슈 중:
 
 1. **제목에서 날짜 추출**: 정규식 `\((\d{1,2}/\d{1,2})\)` 매칭
 2. **날짜가 없으면 건너뜀**
-3. **오늘 날짜와 일치하는 경우 In Progress로 전환**:
-   ```
-   mcp__jira-personal__get-issue-transitions (issueKey)
-   → "In Progress" 또는 "진행 중" transition ID 확인
-   mcp__jira-personal__transition-issue (issueKey, transitionId)
-   ```
+3. **오늘 이전 날짜인 경우 완료로 전환**:
+   - transitions 조회 → "완료" 또는 "Done" transition ID 확인
+   - transition 실행
+
+#### 해야 할 일 이슈 → 진행중 처리
+
+`statusCategory.key == "new"` 인 이슈 중:
+
+1. **제목에서 날짜 추출**: 정규식 `\((\d{1,2}/\d{1,2})\)` 매칭
+2. **날짜가 없으면 건너뜀**
+3. **오늘 날짜와 일치하는 경우 진행중으로 전환**:
+   - transitions 조회 → "진행중" 또는 "In Progress" transition ID 확인
+   - transition 실행
 
 ### 4단계: 결과 보고
 
