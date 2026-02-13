@@ -11,6 +11,7 @@
 | `dan-writing` | Jira + Confluence 통합 편집 | doheelab.atlassian.net |
 | `dan-propose` | 프로필 이미지 분석 → 데이트 신청글 작성 | - |
 | `dan-calendar` | Google Calendar 일정 조회/생성/수정/삭제 | Google Calendar API |
+| `dan-jira-update` | Jira 이슈 상태를 날짜 기준으로 자동 전환 | doheelab.atlassian.net |
 
 ## 설치
 
@@ -42,6 +43,8 @@ claude-skills/
 │   ├── output/        # 생성된 신청글 (git 제외)
 │   └── archive/       # 처리 완료 이미지 (git 제외)
 ├── dan-calendar/      # Google Calendar 관리
+│   └── SKILL.md
+├── dan-jira-update/   # Jira 이슈 상태 자동 전환
 │   └── SKILL.md
 └── README.md
 ```
