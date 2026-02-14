@@ -347,6 +347,7 @@ parent: {"key": "TASK-9"}
 - 확인되지 않은 정보는 추측으로 표기하지 않음
 - 작업 완료 후 결과 URL을 반드시 반환
 - 오류 발생 시 원인을 파악하고 가능한 대안을 시도
+- **로컬 마크다운을 수정할 때는 반드시 Confluence 위키 페이지도 함께 업데이트할 것**
 - Confluence 페이지 업데이트 시 **버전 번호를 반드시 1 증가**
 - 태스크 생성 후 현재 활성 스프린트에 자동 추가 + **In Progress 전환**
   - Board ID: 1, Agile API: `/rest/agile/1.0/board/1/sprint?state=active`
