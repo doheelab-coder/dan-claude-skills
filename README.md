@@ -13,6 +13,7 @@
 | `dan-calendar` | Google Calendar 일정 조회/생성/수정/삭제 | Google Calendar API |
 | `dan-jira-update` | Jira 이슈 상태를 날짜 기준으로 자동 전환 | doheelab.atlassian.net |
 | `dan-person-analysis` | 프로필/카카오톡 대화 분석 → 인물 정보 정리 | - |
+| `dan-tech-reviewer` | 최신 기술 동향/뉴스 검색 → 리포트 작성 | doheelab.atlassian.net |
 
 ## 설치
 
@@ -52,5 +53,9 @@ claude-skills/
 │   ├── .gitignore
 │   ├── input/         # 사람별 디렉토리 (git 제외)
 │   └── output/        # 분석 결과 (git 제외)
+├── dan-tech-reviewer/   # 기술 동향 리포트
+│   ├── SKILL.md
+│   ├── .gitignore
+│   └── output/        # 리포트 (git 제외)
 └── README.md
 ```
