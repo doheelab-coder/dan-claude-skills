@@ -157,6 +157,8 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
 
 ## 일정 작성 규칙
 
+- **일정명(summary)**: Jira 이슈 제목에서 날짜 부분(`(M/DD)` 등)을 제거하고 등록
+  - 예: `(2/15) 이제연님` → summary: `이제연님`
 - **시간대**: 항상 `Asia/Seoul` (+09:00) 사용
 - **end 시간**: 지정하지 않은 경우 start로부터 1시간 후로 설정
 - **연애 에픽 일정**: Jira 연애 에픽 하위 이슈를 동기화할 때는 start로부터 **2시간** 짜리 일정으로 생성
