@@ -179,7 +179,20 @@ output/{사람명}.md
 *분석 소스: {사용된 파일 목록}*
 ```
 
-### Step 6: 기존 파일이 있으면 업데이트
+### Step 6: 개인 Confluence 위키에 업로드
+
+`output/{사람명}.md`를 Confluence Storage Format (XHTML)으로 변환하여 개인 위키에 업로드합니다.
+
+- **사이트**: https://doheelab.atlassian.net/
+- **스페이스 키**: `~6167d0ad07ac3c00689b46b0`
+- **부모 페이지**: 관계 (ID: 40370179)
+- **페이지 제목**: `{사람명} 프로필`
+- **API 호출**: 항상 curl (python3 urllib) 사용 (MCP 도구 사용하지 않음)
+- **인증**: `~/.claude/settings.json`의 `mcpServers.jira-personal.env.ATLASSIAN_API_TOKEN`
+
+이미 동일 제목의 페이지가 있으면 업데이트 (버전 +1), 없으면 새로 생성합니다.
+
+### Step 7: 기존 파일이 있으면 업데이트
 
 `output/{사람명}.md`가 이미 존재하면:
 1. 기존 파일을 읽어서 이전 정보 확인

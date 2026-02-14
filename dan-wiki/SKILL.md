@@ -23,12 +23,24 @@ description: 개인 Confluence (doheelab.atlassian.net) 페이지 조회/생성/
 /dan-wiki 페이지 12345에 "새 섹션 내용" 추가
 ```
 
-## MCP 서버 정보
+## 사이트 정보
 
-- **MCP 서버명**: `jira-personal`
-- **도구 접두사**: `mcp__jira-personal__*`
 - **사이트**: https://doheelab.atlassian.net/
 - **이메일**: doheelab@gmail.com
+
+## API 호출 방식
+
+**항상 curl (python3 urllib)을 사용합니다.** MCP 도구는 네트워크 오류가 잦으므로 사용하지 않습니다.
+
+### 토큰 로드 패턴
+
+```python
+import json, urllib.request, base64
+d = json.load(open('/Users/dan.jung/.claude/settings.json'))
+token = d['mcpServers']['jira-personal']['env']['ATLASSIAN_API_TOKEN']
+creds = base64.b64encode(f'doheelab@gmail.com:{token}'.encode()).decode()
+# req.add_header('Authorization', f'Basic {creds}')
+```
 
 ## 동작 절차
 
@@ -37,14 +49,6 @@ description: 개인 Confluence (doheelab.atlassian.net) 페이지 조회/생성/
 ---
 
 ### 스페이스 조회
-
-#### MCP 도구 사용 (우선)
-```
-mcp__jira-personal__get-spaces ()
-mcp__jira-personal__find-space-by-name (spaceName)
-```
-
-#### curl 대안 (MCP 실패 시)
 ```bash
 # 스페이스 목록
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
@@ -58,16 +62,6 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
 ---
 
 ### 페이지 조회
-
-#### MCP 도구 사용 (우선)
-```
-mcp__jira-personal__get-page-by-id (pageId)
-mcp__jira-personal__get-page-children (pageId)
-mcp__jira-personal__get-pages (spaceKey)
-mcp__jira-personal__get-recently-updated-pages ()
-```
-
-#### curl 대안
 ```bash
 # 페이지 조회 (본문 포함)
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
@@ -89,13 +83,6 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
 ---
 
 ### 페이지 생성
-
-#### MCP 도구 사용 (우선)
-```
-mcp__jira-personal__create-page (spaceKey, title, body, parentPageId)
-```
-
-#### curl 대안
 ```bash
 curl -s -X POST \
   -u "doheelab@gmail.com:<API_TOKEN>" \
@@ -118,13 +105,6 @@ curl -s -X POST \
 ---
 
 ### 페이지 업데이트
-
-#### MCP 도구 사용 (우선)
-```
-mcp__jira-personal__update-page (pageId, title, body, version)
-```
-
-#### curl 대안
 ```bash
 # 1. 현재 버전 확인
 curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
@@ -151,13 +131,6 @@ curl -s -X PUT \
 ---
 
 ### 페이지 삭제
-
-#### MCP 도구 사용 (우선)
-```
-mcp__jira-personal__delete-page (pageId)
-```
-
-#### curl 대안
 ```bash
 curl -s -X DELETE \
   -u "doheelab@gmail.com:<API_TOKEN>" \
@@ -216,7 +189,7 @@ https://doheelab.atlassian.net/wiki/spaces/DAN/pages/12345/페이지제목
 ## 중요 지침
 
 - **진행 여부를 묻지 않고 끝까지 완료할 것**
-- MCP 도구를 우선 사용하고, 실패 시 curl로 대안 시도
+- **항상 curl (python3 urllib)을 사용하고, MCP 도구는 사용하지 않음**
 - 작업 완료 후 결과 URL을 반드시 반환
 - 오류 발생 시 원인을 파악하고 가능한 대안을 시도
 - 페이지 업데이트 시 **버전 번호를 반드시 1 증가**
