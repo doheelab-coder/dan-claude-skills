@@ -187,7 +187,7 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
 | 5 | Banana (노랑) | [관계] 친구 |
 | 6 | Tangerine (주황) | [관계] 가족 |
 | 7 | Peacock (파랑) | [목적] 업무 |
-| 8 | Graphite (회색) | [목적] 블로그 |
+| 8 | Graphite (회색) | (미사용) |
 | 9 | Blueberry (남색) | [목적] 스터디 |
 | 10 | Basil (짙은초록) | [목적] 방향성 |
 | 11 | Tomato (빨강) | [경제] 재테크, [경제] 투자 |
