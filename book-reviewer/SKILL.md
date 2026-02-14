@@ -276,5 +276,6 @@ parent: {"key": "TASK-10"}
 - 작업 완료 후 결과 URL을 반드시 반환
 - 오류 발생 시 원인을 파악하고 가능한 대안을 시도
 - Confluence 페이지 업데이트 시 **버전 번호를 반드시 1 증가**
-- 태스크 생성 후 현재 활성 스프린트의 TODO에 자동 추가
+- 태스크 생성 후 현재 활성 스프린트에 추가 + **진행중(In Progress) 상태로 전환**
   - Board ID: 1, Agile API: `/rest/agile/1.0/board/1/sprint?state=active`
+  - 위키 작성 완료 후에도 완료로 전환하지 않고 **진행중 상태를 유지**
