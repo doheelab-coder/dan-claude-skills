@@ -186,8 +186,8 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
      - 사람 이름(`님` 포함)인 경우: Confluence 위키에서 `{이름} 프로필` 페이지 검색 → 존재하면 description에 링크 추가
   2. **활성 스프린트에 이동**: Jira Agile API로 현재 활성 스프린트에 이슈 추가
      ```bash
-     # 활성 스프린트 조회 (board ID: 3)
-     curl -s "https://doheelab.atlassian.net/rest/agile/1.0/board/3/sprint?state=active" \
+     # 활성 스프린트 조회 (board ID: 1)
+     curl -s "https://doheelab.atlassian.net/rest/agile/1.0/board/1/sprint?state=active" \
        -u "doheelab@gmail.com:<API_TOKEN>"
      # 스프린트에 이슈 추가
      curl -s -X POST "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>/issue" \
