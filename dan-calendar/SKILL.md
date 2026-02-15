@@ -161,7 +161,7 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
   - 예: `(2/15) 이제연님` → summary: `이제연님`
 - **시간대**: 항상 `Asia/Seoul` (+09:00) 사용
 - **end 시간**: 지정하지 않은 경우 start로부터 1시간 후로 설정
-- **연애 에픽 일정**: Jira 연애 에픽 하위 이슈를 동기화할 때는 start로부터 **2시간** 짜리 일정으로 생성
+- **연애 에픽 일정 (colorId 4)**: 항상 start로부터 **2시간** 짜리 일정으로 생성 (summary에 `님` 포함 또는 연애 에픽)
 - **알림**: 기본 30분 전 팝업 알림
 - **종일 일정**: `dateTime` 대신 `date` 필드 사용
 

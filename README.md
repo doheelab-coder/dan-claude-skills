@@ -12,6 +12,7 @@
 | `dan-propose` | 프로필 이미지 분석 → 데이트 신청글 작성 | - |
 | `dan-calendar` | Google Calendar 일정 조회/생성/수정/삭제 | Google Calendar API |
 | `dan-jira-update` | Jira 이슈 상태를 날짜 기준으로 자동 전환 | doheelab.atlassian.net |
+| `dan-calendar-update` | Google Calendar 일정을 규칙에 맞게 자동 검증/수정 | Google Calendar API |
 | `dan-person-analysis` | 프로필/카카오톡 대화 분석 → 인물 정보 정리 | - |
 | `dan-tech-reviewer` | 최신 기술 동향/뉴스 검색 → 리포트 작성 | doheelab.atlassian.net |
 
@@ -47,6 +48,8 @@ claude-skills/
 ├── dan-calendar/      # Google Calendar 관리
 │   └── SKILL.md
 ├── dan-jira-update/   # Jira 이슈 상태 자동 전환
+│   └── SKILL.md
+├── dan-calendar-update/  # Google Calendar 검증/수정
 │   └── SKILL.md
 ├── dan-person-analysis/  # 인물 정보 분석
 │   ├── SKILL.md

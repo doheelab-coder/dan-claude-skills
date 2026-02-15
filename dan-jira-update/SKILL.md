@@ -80,7 +80,24 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
    - transitions 조회 → "진행중" 또는 "In Progress" transition ID 확인
    - transition 실행
 
-### 4단계: 결과 보고
+### 4단계: 사람 이슈에 Confluence 프로필 링크 추가
+
+제목에 사람 이름이 포함된 이슈 (정규식 `\)\s*(.+?)님`)에 대해:
+
+1. **Confluence 위키에서 프로필 페이지 검색**: `{이름} 프로필` 제목으로 검색
+   - 스페이스 키: `~6167d0ad07ac3c00689b46b0`
+   - 부모 페이지: 관계 (ID: 40370179)
+2. **프로필이 존재하면**: 해당 이슈의 description에 위키 링크 추가
+   - 기존 description 유지 + `프로필: {이름} 프로필 (Confluence)` 링크 행 추가
+   - 이미 링크가 있으면 건너뜀
+3. **프로필이 없으면**: 건너뜀
+
+#### Confluence 인증
+- `~/.claude/settings.json`의 `mcpServers.jira-personal.env.ATLASSIAN_API_TOKEN` + email (`doheelab@gmail.com`)
+- Basic Auth (base64), python3 urllib 사용
+- **반드시 메인 컨텍스트에서 직접 실행** (서브에이전트 위임 금지)
+
+### 5단계: 결과 보고
 
 전환 결과를 요약하여 출력합니다:
 
@@ -92,6 +109,9 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
 ## 진행 시작 (To Do → In Progress)
 - TASK-105: (2/14) 김하나님
 - TASK-106: (2/14) 독서
+
+## 프로필 링크 추가
+- TASK-105: 김하나님 → 김하나 프로필 (Confluence) 링크 추가
 
 ## 건너뜀 (날짜 없음)
 - TASK-110: API 리팩토링
