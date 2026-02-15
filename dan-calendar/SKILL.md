@@ -169,12 +169,40 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
 
 ## Jira 연동 규칙
 
-- **Jira 이슈 변경 시 캘린더 동기화**: `/dan-jira`로 이슈를 생성/수정/삭제할 때, 해당 이슈에 날짜 정보가 있으면 Google Calendar도 함께 동기화
+### Jira → Calendar (dan-jira에서 이슈 변경 시)
+
+- `/dan-jira`로 이슈를 생성/수정/삭제할 때, 해당 이슈에 날짜 정보가 있으면 Google Calendar도 함께 동기화
   - 이슈 생성 → 캘린더 일정 생성
   - 이슈 수정 (날짜/시간/장소 변경) → 캘린더 일정 수정
   - 이슈 삭제 → 캘린더 일정 삭제
+
+### Calendar → Jira (dan-calendar에서 일정 추가 시)
+
+- `/dan-calendar`로 일정을 **추가**할 때, Jira TASK 이슈도 함께 생성하고 활성 스프린트에 추가
+- 절차:
+  1. **Jira 이슈 생성**: project `TASK`, issuetype `Task` (id: 10003)
+     - 제목: `(M/DD) {일정명}` (예: `(2/18) 복이안님`)
+     - description: 시간, 장소 등 상세 정보 (ADF 형식)
+     - 사람 이름(`님` 포함)인 경우: Confluence 위키에서 `{이름} 프로필` 페이지 검색 → 존재하면 description에 링크 추가
+  2. **활성 스프린트에 이동**: Jira Agile API로 현재 활성 스프린트에 이슈 추가
+     ```bash
+     # 활성 스프린트 조회 (board ID: 3)
+     curl -s "https://doheelab.atlassian.net/rest/agile/1.0/board/3/sprint?state=active" \
+       -u "doheelab@gmail.com:<API_TOKEN>"
+     # 스프린트에 이슈 추가
+     curl -s -X POST "https://doheelab.atlassian.net/rest/agile/1.0/sprint/<SPRINT_ID>/issue" \
+       -u "doheelab@gmail.com:<API_TOKEN>" \
+       -H "Content-Type: application/json" \
+       -d '{"issues": ["TASK-XXX"]}'
+     ```
+  3. **Google Calendar 일정 생성**: description에 `TASK-XXX` 이슈 키 포함
+- 일정 **조회/수정/삭제** 시에는 Jira 이슈를 생성하지 않음
+
+### 공통 규칙
+
 - **매칭 기준**: 캘린더 이벤트의 description에 `TASK-XXX` 형식의 이슈 키를 포함하여 매칭
 - **에픽별 색상**: Jira 이슈의 에픽에 따라 캘린더 이벤트의 `colorId`를 설정
+- **API 인증**: `~/.claude/settings.json`의 `mcpServers.jira-personal.env.ATLASSIAN_API_TOKEN`에서 토큰 조회
 
 ### 에픽-색상 매핑 (Google Calendar colorId)
 
