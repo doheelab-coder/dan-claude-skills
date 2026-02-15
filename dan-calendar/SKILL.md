@@ -164,6 +164,7 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
 - **연애 에픽 일정 (colorId 4)**: 항상 start로부터 **2시간** 짜리 일정으로 생성 (summary에 `님` 포함 또는 연애 에픽)
 - **알림**: 기본 30분 전 팝업 알림
 - **종일 일정**: `dateTime` 대신 `date` 필드 사용
+- **날짜 미지정 시**: 날짜를 지정하지 않고 "일정 추가"만 하면 **오늘** 날짜로 등록
 
 ---
 
@@ -195,7 +196,9 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
        -H "Content-Type: application/json" \
        -d '{"issues": ["TASK-XXX"]}'
      ```
-  3. **Google Calendar 일정 생성**: description에 `TASK-XXX` 이슈 키 포함
+  3. **Jira 이슈 상태 전환**: 일정 날짜가 오늘이면 "진행중(In Progress)"으로 전환
+     - transitions 조회 → "진행중" 또는 "In Progress" transition ID 확인 → 전환 실행
+  4. **Google Calendar 일정 생성**: description에 `TASK-XXX` 이슈 키 포함
 - 일정 **조회/수정/삭제** 시에는 Jira 이슈를 생성하지 않음
 
 ### 공통 규칙
