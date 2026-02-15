@@ -184,6 +184,7 @@ curl -s -X DELETE "https://www.googleapis.com/calendar/v3/calendars/primary/even
   1. **Jira 이슈 생성**: project `TASK`, issuetype `Task` (id: 10003)
      - 제목: `(M/DD) {일정명}` (예: `(2/18) 복이안님`)
      - description: 시간, 장소 등 상세 정보 (ADF 형식)
+     - **기한(duedate)**: 일정 날짜를 `YYYY-MM-DD` 형식으로 설정 (예: `"duedate": "2026-02-16"`)
      - 사람 이름(`님` 포함)인 경우: Confluence 위키에서 `{이름} 프로필` 페이지 검색 → 존재하면 description에 링크 추가
   2. **활성 스프린트에 이동**: Jira Agile API로 현재 활성 스프린트에 이슈 추가
      ```bash
