@@ -9,11 +9,9 @@
 | `dan-jira` | Jira 이슈 조회/생성/편집/코멘트/스프린트 | doheelab.atlassian.net |
 | `dan-wiki` | Confluence 페이지 조회/생성/편집 | doheelab.atlassian.net |
 | `dan-writing` | Jira + Confluence 통합 편집 | doheelab.atlassian.net |
-| `dan-propose` | 프로필 이미지 분석 → 데이트 신청글 작성 | - |
 | `dan-calendar` | Google Calendar 일정 조회/생성/수정/삭제 | Google Calendar API |
 | `dan-jira-update` | Jira 이슈 상태를 날짜 기준으로 자동 전환 | doheelab.atlassian.net |
 | `dan-calendar-update` | Google Calendar 일정을 규칙에 맞게 자동 검증/수정 | Google Calendar API |
-| `dan-person-analysis` | 프로필/카카오톡 대화 분석 → 인물 정보 정리 | - |
 | `dan-tech-reviewer` | 최신 기술 동향/뉴스 검색 → 리포트 작성 | doheelab.atlassian.net |
 
 ## 설치
@@ -39,23 +37,12 @@ claude-skills/
 │   └── SKILL.md
 ├── dan-writing/       # Jira + Confluence 통합
 │   └── SKILL.md
-├── dan-propose/       # 데이트 신청글 작성
-│   ├── SKILL.md
-│   ├── .gitignore
-│   ├── input/         # 프로필 이미지 (git 제외)
-│   ├── output/        # 생성된 신청글 (git 제외)
-│   └── archive/       # 처리 완료 이미지 (git 제외)
 ├── dan-calendar/      # Google Calendar 관리
 │   └── SKILL.md
 ├── dan-jira-update/   # Jira 이슈 상태 자동 전환
 │   └── SKILL.md
 ├── dan-calendar-update/  # Google Calendar 검증/수정
 │   └── SKILL.md
-├── dan-person-analysis/  # 인물 정보 분석
-│   ├── SKILL.md
-│   ├── .gitignore
-│   ├── input/         # 사람별 디렉토리 (git 제외)
-│   └── output/        # 분석 결과 (git 제외)
 ├── dan-tech-reviewer/   # 기술 동향 리포트
 │   ├── SKILL.md
 │   ├── .gitignore
