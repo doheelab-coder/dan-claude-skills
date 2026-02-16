@@ -118,6 +118,19 @@ curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
   -d '{"issues":["<ISSUE_KEY>"]}'
 ```
 
+#### 진행중(In Progress) 상태로 전환 (새 태스크 생성 시)
+```bash
+# transitions 조회
+curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
+  "https://doheelab.atlassian.net/rest/api/3/issue/<ISSUE_KEY>/transitions"
+
+# "진행중" 또는 "In Progress" transition ID로 전환
+curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/api/3/issue/<ISSUE_KEY>/transitions" \
+  -d '{"transition":{"id":"<TRANSITION_ID>"}}'
+```
+
 ---
 
 ### Step 3: 독서리뷰 마크다운 생성
