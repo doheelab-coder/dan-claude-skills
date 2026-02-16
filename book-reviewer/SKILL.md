@@ -81,7 +81,7 @@ curl -s -X POST \
       "project": {"key": "TASK"},
       "issuetype": {"name": "Task"},
       "parent": {"key": "TASK-10"},
-      "summary": "<책 제목>",
+      "summary": "(M/DD) [독서리뷰] <책 제목>",
       "description": <ADF 형식의 책 정보>
     }
   }'
@@ -141,7 +141,7 @@ curl -s -X POST -u "doheelab@gmail.com:<API_TOKEN>" \
 - **카테고리**: <카테고리>
 - **부제**: <부제>
 - **Jira**: [TASK-XXX](https://doheelab.atlassian.net/browse/TASK-XXX)
-- **Wiki**: [YYYY.MM.DD [독서리뷰] <책 제목>](<위키 URL>)
+- **Wiki**: [(M/DD) [독서리뷰] <책 제목>](<위키 URL>)
 
 ## 책 소개
 <검색된 소개글 - 문장 단위로 줄바꿈하여 가독성 확보>
