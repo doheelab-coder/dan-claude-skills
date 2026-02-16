@@ -8,7 +8,9 @@ description: Jira TASK 프로젝트 이슈 상태를 날짜 기준으로 자동 
 TASK 프로젝트의 이슈 상태를 제목의 날짜 `(M/DD)` 기준으로 자동 전환합니다.
 
 - **In Progress** 중 오늘 이전 날짜 → **Done**
+- **To Do** 중 오늘 이전 날짜 → **Done**
 - **To Do** 중 오늘 날짜 → **In Progress**
+- **모든 상태**의 이슈를 날짜순으로 정렬 (같은 날짜 내 [관계] 에픽 우선)
 
 ## 실행 방법
 
@@ -65,15 +67,35 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
    - transitions 조회 → "완료" 또는 "Done" transition ID 확인
    - transition 실행
 
-#### 해야 할 일 이슈 → 진행중 처리
+#### 해야 할 일 이슈 → 완료 또는 진행중 처리
 
 `statusCategory.key == "new"` 인 이슈 중:
 
 1. **제목에서 날짜 추출**: 정규식 `\((\d{1,2}/\d{1,2})\)` 매칭
 2. **날짜가 없으면 건너뜀**
-3. **오늘 날짜와 일치하는 경우 진행중으로 전환**:
+3. **오늘 이전 날짜인 경우 완료로 전환**:
+   - transitions 조회 → "완료" 또는 "Done" transition ID 확인
+   - transition 실행
+4. **오늘 날짜와 일치하는 경우 진행중으로 전환**:
    - transitions 조회 → "진행중" 또는 "In Progress" transition ID 확인
    - transition 실행
+
+### 3-1단계: 전체 이슈 날짜순 정렬
+
+모든 상태(To Do, In Progress, Done)의 이슈를 제목의 `(M/DD)` 날짜 기준으로 오름차순 정렬합니다.
+
+**정렬 규칙**:
+1. **날짜 오름차순**: 이른 날짜가 위
+2. **같은 날짜 내 [관계] 에픽 우선**: [관계] 에픽(TASK-4, TASK-5, TASK-6, TASK-16) 또는 `님` 포함 이슈가 먼저
+3. 날짜 패턴이 없는 이슈는 맨 아래
+
+```bash
+# Agile rank API로 이슈 순서 변경
+curl -s -X PUT -u "doheelab@gmail.com:<API_TOKEN>" \
+  -H "Content-Type: application/json" \
+  "https://doheelab.atlassian.net/rest/agile/1.0/issue/rank" \
+  -d '{"issues":["TASK-XXX"],"rankAfterIssue":"TASK-YYY"}'
+```
 
 ### 4단계: 사람 이슈에 Confluence 프로필 링크 추가
 
@@ -101,9 +123,20 @@ curl -s -u "doheelab@gmail.com:<API_TOKEN>" \
 - TASK-101: (2/13) 서윤정님
 - TASK-102: (2/12) 운동
 
+## 완료 처리 (To Do → Done)
+- TASK-155: (2/15) 달리기
+
 ## 진행 시작 (To Do → In Progress)
 - TASK-105: (2/14) 김하나님
 - TASK-106: (2/14) 독서
+
+## 이슈 정렬 (날짜순, [관계] 우선)
+### To Do
+- TASK-154 (2/17) [관계] → TASK-135 (2/18) [관계] → TASK-142 (2/22)
+### In Progress
+- TASK-158 (2/16) [관계] → TASK-157 (2/16) [관계] → TASK-144 (2/16)
+### Done
+- TASK-137 (2/13) [관계] → TASK-147 (2/13) → ... → TASK-138 (2/15) [관계] → TASK-155 (2/15)
 
 ## 프로필 링크 추가
 - TASK-105: 김하나님 → 김하나 프로필 (Confluence) 링크 추가
