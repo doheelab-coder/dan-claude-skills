@@ -104,8 +104,9 @@ curl -s -X PUT -u "doheelab@gmail.com:<API_TOKEN>" \
 1. **Confluence 위키에서 프로필 페이지 검색**: `{이름} 프로필` 제목으로 검색
    - 스페이스 키: `~6167d0ad07ac3c00689b46b0`
    - 부모 페이지: 관계 (ID: 40370179)
+   - **중요**: CQL 검색 결과를 `title == "{이름} 프로필"`로 정확히 필터링할 것 (CQL `title=`은 부분 매칭이므로 코드에서 exact match 필수)
 2. **프로필이 존재하면**: 해당 이슈의 description에 위키 링크 추가
-   - 기존 description 유지 + `프로필: {이름} 프로필 (Confluence)` 링크 행 추가
+   - 기존 description 유지 + `프로필: {이름} 프로필` 링크 행 추가
    - 이미 링크가 있으면 건너뜀
 3. **프로필이 없으면**: 건너뜀
 
