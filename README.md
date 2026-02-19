@@ -12,6 +12,7 @@
 | `dan-calendar` | Google Calendar 일정 조회/생성/수정/삭제 | Google Calendar API |
 | `dan-jira-update` | Jira 이슈 상태 자동 전환 + Calendar 일정 검증/수정 | doheelab.atlassian.net, Google Calendar API |
 | `dan-tech-reviewer` | 최신 기술 동향/뉴스 검색 → 리포트 작성 | doheelab.atlassian.net |
+| `dan-youtube-reviewer` | YouTube 영상 자막 추출 → 내용 요약 리뷰 | doheelab.atlassian.net, YouTube |
 
 ## 설치
 
@@ -41,6 +42,10 @@ claude-skills/
 ├── dan-jira-update/   # Jira 상태 전환 + Calendar 검증
 │   └── SKILL.md
 ├── dan-tech-reviewer/   # 기술 동향 리포트
+│   ├── SKILL.md
+│   ├── .gitignore
+│   └── output/        # 리포트 (git 제외)
+├── dan-youtube-reviewer/  # YouTube 영상 리뷰
 │   ├── SKILL.md
 │   ├── .gitignore
 │   └── output/        # 리포트 (git 제외)
